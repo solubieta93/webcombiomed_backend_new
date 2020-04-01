@@ -45,7 +45,7 @@ INSTALLED_APPS = [
     # 'channels',
     'chat',
     'corsheaders',
-    'django_filters'
+    # 'django_filters'
 ]
 
 
@@ -54,7 +54,9 @@ REST_FRAMEWORK = {
         ('knox.auth.TokenAuthentication',
          # 'rest_framework.permissions.IsAuthenticated',
          ),
-    'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend']
+    # 'DEFAULT_FILTER_BACKENDS': ['django_filters.rest_framework.DjangoFilterBackend'],
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 10
 }
 
 MIDDLEWARE = [
@@ -65,13 +67,12 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
     'corsheaders.middleware.CorsMiddleware',
 ]
 
-# CORS_ORIGIN_WHITELIST = (
-#     'localhost:8000',
-# )
+CORS_ORIGIN_WHITELIST = (
+    "http://localhost:8080",
+)
 CORS_ORIGIN_ALLOW_ALL = True
 
 ROOT_URLCONF = 'web_api.urls'

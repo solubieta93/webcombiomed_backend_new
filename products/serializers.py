@@ -12,7 +12,8 @@ class ProductSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['id', 'owner', 'name', 'description']
+        # fields = ['id', 'owner', 'name', 'description']
+        fields = '__all__'
 
 #   default implementations method
 #   def create()
