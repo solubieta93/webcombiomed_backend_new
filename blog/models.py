@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.contrib.contenttypes.models import ContentType
 from rest_framework import serializers
 
+
 class Base64ImageField(serializers.ImageField):
     def to_internal_value(self, data):
         from django.core.files.base import ContentFile
@@ -51,7 +52,7 @@ class Post(models.Model):
                               related_name="posts",
                               on_delete=models.CASCADE,
                               null=True)
-    title = models.CharField(max_length=120)
+    title = models.CharField(max_length=120, unique=False)
     # perezoso, babosa, haragan
     slug = models.SlugField(unique=True, null=True)
     # created
