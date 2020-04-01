@@ -4,11 +4,10 @@ from .serializers import BlogSerializer, CommentSerializer
 from .permissions import IsOwnerOrReadOnly
 # from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-# import django_filters
+import django_filters
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
-
 
 
 # TODO: filter by news, boolean filter
@@ -16,7 +15,7 @@ class BlogViewSet(ModelViewSet):
     serializer_class = BlogSerializer
     # DjangoFilterBackend,
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    # filter_fields = ['news', 'owner']
+    filter_fields = ['news', 'owner']
     search_fields = ['title', 'owner__username', 'publish']
     ordering_fields = ['publish']
     ordering = ['publish']
@@ -83,7 +82,7 @@ class BlogViewSet(ModelViewSet):
 
         if start >= count:
             return Response({
-                'success': True,
+                'success': False,
                 'message': 'Bad query params.',
                 'data': None,
             }, status=400)

@@ -53,7 +53,7 @@ class Post(models.Model):
                               null=True)
     title = models.CharField(max_length=120)
     # perezoso, babosa, haragan
-    slug = models.SlugField(unique=True, null=True)
+    # slug = models.SlugField(unique=True, null=True)
     # created
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
     # body
