@@ -1,3 +1,5 @@
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
 from products.models import Product
 from rest_framework import viewsets, permissions
 from .serializers import ProductSerializer

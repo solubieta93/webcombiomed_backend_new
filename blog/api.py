@@ -2,21 +2,25 @@ from blog.models import Post, Comment
 from rest_framework import viewsets, permissions, decorators
 from .serializers import BlogSerializer, CommentSerializer
 from .permissions import IsOwnerOrReadOnly
-from rest_framework.viewsets import ModelViewSet
-from django_filters.rest_framework import DjangoFilterBackend
+# from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import filters
-import django_filters
+# import django_filters
+from rest_framework.viewsets import GenericViewSet, ModelViewSet
+from rest_framework.decorators import action
+from rest_framework.response import Response
 
 
+
+# TODO: filter by news, boolean filter
 class BlogViewSet(ModelViewSet):
     serializer_class = BlogSerializer
     # DjangoFilterBackend,
     filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    # filterset_fields = ['owner']
+    # filter_fields = ['news', 'owner']
     search_fields = ['title', 'owner__username', 'publish']
     ordering_fields = ['publish']
     ordering = ['publish']
-    is_news = django_filters.BooleanFilter(field_name='news', method='filter_is_news')
+    # is_news = django_filters.BooleanFilter(field_name='news', method='filter_is_news')
 
     permission_classes_by_action = {'create': [permissions.IsAdminUser],
                                     # 'detail': [permissions.IsAuthenticatedOrReadOnly],
@@ -25,9 +29,6 @@ class BlogViewSet(ModelViewSet):
                                     'destroy': [permissions.IsAdminUser],
                                     'list': [permissions.IsAuthenticatedOrReadOnly],
                                     'delete': [permissions.IsAdminUser]}
-
-    def get_queryset(self):
-        return Post.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
@@ -42,8 +43,60 @@ class BlogViewSet(ModelViewSet):
         except KeyError:
             return [permission() for permission in self.permission_classes]
 
-    def filter_is_news(self):
-        pass
+    def get_queryset(self):
+        return Post.objects.all()
+
+    @action(methods=['get'], detail=False, url_path='blog', url_name='blog')
+    def getblog(self, request):
+        queryset = Post.objects.filter(news=False)
+        offset = int(request.query_params['offset']) if 'offset' in request.query_params else 0
+        limit = int(request.query_params['limit']) if 'limit' in request.query_params else 10
+        start = offset*limit
+        end = start + limit
+        count = queryset.count()
+
+        if start >= count:
+            return Response({
+                'success': True,
+                'message': 'Bad query params.',
+                'data': None,
+            }, status=400)
+        posts = [BlogSerializer(post, context=self.get_serializer_context()).data for post in queryset[start: end]]
+        return Response({
+            'success': True,
+            'message': 'Success',
+            'data': {
+                'count': count,
+                'hasMore': count > (offset + 1)*limit,
+                'posts': posts,
+            },
+        }, status=200)
+
+    @action(methods=['get'], detail=False, url_path='news', url_name='news')
+    def getnews(self, request):
+        queryset = Post.objects.filter(news=True)
+        offset = int(request.query_params['offset']) if 'offset' in request.query_params else 0
+        limit = int(request.query_params['limit']) if 'limit' in request.query_params else 10
+        start = offset * limit
+        end = start + limit
+        count = queryset.count()
+
+        if start >= count:
+            return Response({
+                'success': True,
+                'message': 'Bad query params.',
+                'data': None,
+            }, status=400)
+        news = [BlogSerializer(post, context=self.get_serializer_context()).data for post in queryset[start: end]]
+        return Response({
+            'success': True,
+            'message': 'Success',
+            'data': {
+                'count': count,
+                'hasMore': count > (offset + 1) * limit,
+                'news': news,
+            },
+        }, status=200)
 
 
 class CommentViewSet(viewsets.ModelViewSet):
@@ -56,15 +109,8 @@ class CommentViewSet(viewsets.ModelViewSet):
         ]
         return [permission() for permission in permissions_classes]
 
-    # This only return if the user is authenticated
-    # def get_queryset(self):
-    #     return self.request.user.products.all()
-
     def get_queryset(self):
-        # try:
-        #     return Comment.objects.filter(owner=self.request.user)
-        # except:
-            return Comment.objects.all()
+        return Comment.objects.all()
 
     def perform_create(self, serializer):
         serializer.save(owner=self.request.user)
