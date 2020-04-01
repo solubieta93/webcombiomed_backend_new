@@ -19,6 +19,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='post',
             name='title',
-            field=models.CharField(max_length=120),
+            field=models.CharField(max_length=120, unique=False),
         ),
     ]
