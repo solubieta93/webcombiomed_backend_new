@@ -1,8 +1,6 @@
-from rest_framework import routers
+from django.urls import path
+from .views import *
 
-from files.views import FilesView
-
-router = routers.SimpleRouter(trailing_slash=False)
-router.register(r'files', FilesView, basename='files')
-# router.register(r'users', Users, basename='user')
-urlpatterns = router.urls
+urlpatterns = [
+    path('', FileUploadView.as_view())
+]

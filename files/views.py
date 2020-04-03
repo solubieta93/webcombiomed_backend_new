@@ -1,33 +1,19 @@
 from rest_framework.parsers import FileUploadParser
-from rest_framework.viewsets import GenericViewSet
 from rest_framework.response import Response
-from rest_framework.decorators import action
+from rest_framework.views import APIView
+from rest_framework import status
+
+from .serializers import FileSerializer
 
 
-class FilesView(GenericViewSet):
-    parser_classes = [FileUploadParser]
+class FileUploadView(APIView):
+    parser_class = (FileUploadParser,)
 
-    def __init__(self, folder_name='file', **kwargs):
-        super().__init__(**kwargs)
-        self.folder_name = folder_name
+    def post(self, request, *args, **kwargs):
+        file_serializer = FileSerializer(data=request.data)
 
-    def put(self, request, filename, format=None):
-        file_obj = request.data['file']
-        # ...
-        # do some stuff with uploaded file
-        # ...
-        return Response(status=204)
-
-    @action(methods=['post'], detail=False)  # , url_path='images', url_name='images')
-    def upload(self, request):
-        file_obj = request.data['file']
-
-        return Response(
-            data=
-            {
-
-                'id': 1233243,
-                'url': ''
-            },
-            status=201)
-
+        if file_serializer.is_valid():
+            file_serializer.save()
+            return Response(file_serializer.data, status=status.HTTP_201_CREATED)
+        else:
+            return Response(file_serializer.errors, status=status.HTTP_400_BAD_REQUEST)
