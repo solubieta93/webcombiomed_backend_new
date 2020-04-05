@@ -8,6 +8,7 @@ import django_filters
 from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
+from django.db.models import Q
 
 
 # TODO: filter by news, boolean filter
@@ -47,12 +48,23 @@ class BlogViewSet(ModelViewSet):
 
     @action(methods=['get'], detail=False, url_path='blog', url_name='blog')
     def getblog(self, request):
-        queryset = Post.objects.filter(news=False)
+        print(request.query_params)
         offset = int(request.query_params['offset']) if 'offset' in request.query_params else 0
         limit = int(request.query_params['limit']) if 'limit' in request.query_params else 10
-        start = offset*limit
+        id_distinct = int(request.query_params['id_distinct']) if 'id_distinct' in request.query_params else -1
+        start = int(request.query_params['start']) if 'start' in request.query_params else -1
+        print(id_distinct)
+        if id_distinct != -1:
+            queryset = Post.objects.all().filter(~Q(id=id_distinct)).order_by('-updated')
+        else:
+            queryset = Post.objects.all().order_by('-updated')
+        if start == -1:
+            start = offset*limit
         end = start + limit
         count = queryset.count()
+
+        if end > count:
+            end = count
 
         if start >= count:
             return Response({
