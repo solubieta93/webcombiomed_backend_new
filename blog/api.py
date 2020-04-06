@@ -52,33 +52,26 @@ class BlogViewSet(ModelViewSet):
         offset = int(request.query_params['offset']) if 'offset' in request.query_params else 0
         limit = int(request.query_params['limit']) if 'limit' in request.query_params else 10
         id_distinct = int(request.query_params['id_distinct']) if 'id_distinct' in request.query_params else -1
-        start = int(request.query_params['start']) if 'start' in request.query_params else -1
-        print(id_distinct)
         if id_distinct != -1:
             queryset = Post.objects.all().filter(~Q(id=id_distinct)).order_by('-updated')
         else:
             queryset = Post.objects.all().order_by('-updated')
-        if start == -1:
-            start = offset*limit
-        end = start + limit
+        end = offset + limit
         count = queryset.count()
 
-        if end > count:
-            end = count
-
-        if start >= count:
+        if offset >= count:
             return Response({
                 'success': True,
                 'message': 'Bad query params.',
                 'data': None,
             }, status=400)
-        posts = [BlogSerializer(post, context=self.get_serializer_context()).data for post in queryset[start: end]]
+        posts = [BlogSerializer(post, context=self.get_serializer_context()).data for post in queryset[offset: end]]
         return Response({
             'success': True,
             'message': 'Success',
             'data': {
                 'count': count,
-                'hasMore': count > (offset + 1)*limit,
+                'hasMore': count >= end + 1,
                 'posts': posts,
             },
         }, status=200)
