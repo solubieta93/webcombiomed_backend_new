@@ -1,20 +1,18 @@
 from rest_framework import serializers
-from products.models import Product
+from .models import Product, ProductType
 
 
 # Serializers define the API representation.
 class ProductSerializer(serializers.ModelSerializer):
-    # The source argument controls which attribute is used to populate a field and can point at any attribute
-    # on the serialized instance.
     owner = serializers.ReadOnlyField(source='owner.username')
-    # We could have also used
-    # owner = serializers.CharField(source='owner.username', read_only=True)
+    type = serializers.ReadOnlyField(source='typeId.title', default=None)
 
     class Meta:
         model = Product
-        # fields = ['id', 'owner', 'name', 'description']
         fields = '__all__'
 
-#   default implementations method
-#   def create()
-#   def update()
+
+class ProductTypeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ProductType
+        fields = '__all__'

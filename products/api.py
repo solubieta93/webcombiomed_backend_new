@@ -1,42 +1,25 @@
-from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
-
-from products.models import Product
-from rest_framework import viewsets, permissions
-from .serializers import ProductSerializer
-from .permissions import IsOwnerOrReadOnly
-from rest_framework.decorators import action,permission_classes
+from .models import Product, ProductType
+from rest_framework import viewsets, permissions, filters
+from .serializers import ProductSerializer, ProductTypeSerializer
+from django_filters.rest_framework import DjangoFilterBackend
 
 
-# ViewSets define the view behavior.
-# The viewset classes are almost the same things as view class, except they are provide operations as READ or UPDATE
-# but not methods handlers such as GET or PUT
-# ModelViewSet hereda de GenericAPIView
 class ProductViewSet(viewsets.ModelViewSet):
     """
     The ModelViewSet automatically provides LIST, CREATE, RETRIEVE, UPDATE and DESTROY actions
     The actions provided by the ModelViewSet class are .list(), .retrieve(), .create(), .update(), .partial_update(),
     and .destroy().
     """
-    # queryset = Product.objects.all()
     serializer_class = ProductSerializer
-
-    # def get_permissions(self):
-    #     permissions_classes = [
-    #         permissions.IsAuthenticatedOrReadOnly,
-    #         # permissions.IsAdminUser,
-    #     ]
-    #     return [permission() for permission in permissions_classes]
-
+    filter_backends = [filters.SearchFilter, DjangoFilterBackend]
+    filterset_fields = ['typeId']
+    search_fields = ['name']
     permission_classes_by_action = {'create': [permissions.IsAdminUser],
                                     # 'detail': [permissions.IsAuthenticatedOrReadOnly],
                                     'retrieve': [permissions.IsAuthenticatedOrReadOnly],
                                     'update': [permissions.IsAdminUser],
                                     'destroy': [permissions.IsAdminUser],
                                     'list': [permissions.IsAuthenticatedOrReadOnly]}
-
-    # This only return if the user is authenticated
-    # def get_queryset(self):
-    #     return self.request.user.products.all()
 
     def get_queryset(self):
         print(self.request.user.is_superuser)
@@ -53,10 +36,32 @@ class ProductViewSet(viewsets.ModelViewSet):
 
     def get_permissions(self):
         try:
-            print('try')
-            print(self.action)
-            a = [permission() for permission in self.permission_classes_by_action[self.action]]
-            print(a)
-            return a
+            return [permission() for permission in self.permission_classes_by_action[self.action]]
+        except KeyError:
+            return [permission() for permission in self.permission_classes]
+
+
+class ProductTypeViewSet(viewsets.ModelViewSet):
+    """
+    The ModelViewSet automatically provides LIST, CREATE, RETRIEVE, UPDATE and DESTROY actions
+    The actions provided by the ModelViewSet class are .list(), .retrieve(), .create(), .update(), .partial_update(),
+    and .destroy().
+    """
+    serializer_class = ProductTypeSerializer
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title']
+
+    permission_classes_by_action = {'create': [permissions.IsAdminUser],
+                                    'retrieve': [permissions.IsAdminUser],
+                                    'update': [permissions.IsAdminUser],
+                                    'destroy': [permissions.IsAdminUser],
+                                    'list': [permissions.AllowAny]}
+
+    def get_queryset(self):
+        return ProductType.objects.all()
+
+    def get_permissions(self):
+        try:
+            return [permission() for permission in self.permission_classes_by_action[self.action]]
         except KeyError:
             return [permission() for permission in self.permission_classes]
