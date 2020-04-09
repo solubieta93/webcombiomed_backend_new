@@ -9,17 +9,18 @@ from rest_framework.viewsets import GenericViewSet, ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from django.db.models import Q
+from django_filters.rest_framework import DjangoFilterBackend
 
 
 # TODO: filter by news, boolean filter
 class BlogViewSet(ModelViewSet):
     serializer_class = BlogSerializer
     # DjangoFilterBackend,
-    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
-    filter_fields = ['news', 'owner']
-    search_fields = ['title', 'owner__username', 'publish']
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter, DjangoFilterBackend]
+    filterset_fields = ['news', 'owner', 'publish']
+    search_fields = ['title', 'owner__username']
     ordering_fields = ['publish']
-    ordering = ['publish']
+    ordering = ['-publish']
     # is_news = django_filters.BooleanFilter(field_name='news', method='filter_is_news')
 
     permission_classes_by_action = {'create': [permissions.IsAdminUser],
