@@ -13,13 +13,13 @@ class ProductViewSet(viewsets.ModelViewSet):
     serializer_class = ProductSerializer
     filter_backends = [filters.SearchFilter, DjangoFilterBackend]
     filterset_fields = ['typeId']
-    search_fields = ['name']
+    search_fields = ['name', 'owner__username']
     permission_classes_by_action = {'create': [permissions.IsAdminUser],
                                     # 'detail': [permissions.IsAuthenticatedOrReadOnly],
                                     'retrieve': [permissions.IsAuthenticatedOrReadOnly],
                                     'update': [permissions.IsAdminUser],
                                     'destroy': [permissions.IsAdminUser],
-                                    'list': [permissions.IsAuthenticatedOrReadOnly]}
+                                    'list': [permissions.AllowAny]}
 
     def get_queryset(self):
         print(self.request.user.is_superuser)

@@ -16,3 +16,4 @@ class Product(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.CharField(max_length=1000000, blank=True)
     typeId = models.ForeignKey(ProductType, null=True, on_delete=models.SET_NULL)
+    image = models.TextField(default=None, null=True)
