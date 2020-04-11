@@ -62,7 +62,7 @@ class BlogViewSet(ModelViewSet):
 
         if offset >= count:
             return Response({
-                'success': True,
+                'success': False,
                 'message': 'Bad query params.',
                 'data': None,
             }, status=400)
@@ -73,7 +73,7 @@ class BlogViewSet(ModelViewSet):
             'data': {
                 'count': count,
                 'hasMore': count >= end + 1,
-                'posts': posts,
+                'results': posts,
             },
         }, status=200)
 
