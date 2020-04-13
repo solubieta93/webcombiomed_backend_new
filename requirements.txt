@@ -4,3 +4,7 @@ markdown
 django-filter
 django-rest-knox
 django-cors-headers
+gunicorn
+psycopg2
+pytz
+whitenoise
