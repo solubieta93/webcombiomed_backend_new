@@ -6,6 +6,8 @@ from .models import Product, ProductType
 class ProductSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
     type = serializers.ReadOnlyField(source='typeId.title', default=None)
+    details = serializers.ReadOnlyField(source='load_details', default=None, )
+    files = serializers.ReadOnlyField(source='load_files', default=None, )
 
     class Meta:
         model = Product
