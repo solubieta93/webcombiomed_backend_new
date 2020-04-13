@@ -19,5 +19,5 @@ class Product(models.Model):
     typeId = models.ForeignKey(ProductType, null=True, on_delete=models.SET_NULL)
     image = models.TextField(default=None, null=True)
     json_description = models.TextField(default=None, null=True)
-
+    files = models.TextField(default=None, null=True)
 
