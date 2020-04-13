@@ -15,7 +15,7 @@ class ProductViewSet(viewsets.ModelViewSet):
     filterset_fields = ['typeId']
     search_fields = ['name', 'owner__username']
     permission_classes_by_action = {'create': [permissions.IsAdminUser],
-                                    # 'detail': [permissions.IsAuthenticatedOrReadOnly],
+                                    'detail': [permissions.AllowAny],
                                     'retrieve': [permissions.IsAuthenticatedOrReadOnly],
                                     'update': [permissions.IsAdminUser],
                                     'destroy': [permissions.IsAdminUser],
