@@ -26,7 +26,7 @@ SECRET_KEY = 'e%a(a!f#gw==ss*=+xny0w(87*d7xuixhpa3ndn%ftw&-)j+k-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['combiomed.herokuapp.com']
+ALLOWED_HOSTS = []
 
 
 # Application definition
