@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'blog',
     # 'channels',
+    'contacts',
     'chat',
     'corsheaders',
     'django_filters',
@@ -159,3 +160,9 @@ STATICFILES_DIRS = (
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'parsifal_app'
+EMAIL_HOST_PASSWORD = 'mys3cr3tp4ssw0rd'
+EMAIL_USE_TLS = True
