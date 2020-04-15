@@ -18,6 +18,17 @@ class Product(models.Model):
     description = models.CharField(max_length=100, blank=True)
     typeId = models.ForeignKey(ProductType, null=True, on_delete=models.SET_NULL)
     image = models.TextField(default=None, null=True)
-    json_description = models.TextField(default=None, null=True)
+    json_details = models.TextField(default=None, null=True)
+    json_files = models.TextField(default=None, null=True)
 
+    def load_details(self):
+        if self.json_details:
+            import json
+            return json.loads(self.json_details)
+        return None
 
+    def load_files(self):
+        if self.json_files:
+            import json
+            return json.loads(self.json_files)
+        return None
