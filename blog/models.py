@@ -61,7 +61,7 @@ class Post(models.Model):
     context = models.TextField()
     abstract = models.TextField(max_length=1000, null=False)
 
-    image = models.TextField(default=None)
+    image = models.TextField(default=None, null=True)
 
     width_field = models.IntegerField(default=0)
     height_field = models.IntegerField(default=0)
