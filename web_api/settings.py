@@ -27,7 +27,7 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&
 # DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 
-ALLOWED_HOSTS = ['api-combiomed.herokuapp.com']
+ALLOWED_HOSTS = ['api-combiomed.herokuapp.com', 'localhost', '127.0.0.1']
 
 # Application definition
 INSTALLED_APPS = [
@@ -104,7 +104,14 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+    },
+    # 'default': {
+    #     'ENGINE': 'django_mongodb_engine',
+    #     'NAME': 'combiomed',
+    #     'HOST': 'mongodb://localhost:27017/combiomed',
+    #     # 'USER': '<dbuser>',
+    #     # 'PASSWORD': '<dbpassword>',
+    # },
 }
 
 # Password validation
