@@ -1,4 +1,4 @@
-from blog.models import Post, Comment
+from .models import Post, Comment
 from rest_framework import viewsets, permissions, decorators
 from .serializers import BlogSerializer, CommentSerializer
 from .permissions import IsOwnerOrReadOnly
