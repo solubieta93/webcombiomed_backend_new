@@ -1,25 +1,13 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate
-from products.models import Product
-from blog.models import Post, Comment
-from chat.models import ChatSession, ChatSessionMessage, ChatSessionMember
 
 
 class UserSerializer(serializers.ModelSerializer):
-    # this is because product is a reverse relationship on the User model, it will not be included by default when
-    # using ModelSerializer class
-    products = serializers.PrimaryKeyRelatedField(many=True, queryset=Product.objects.all())
-    posts = serializers.PrimaryKeyRelatedField(many=True, queryset=Post.objects.all())
-    comments = serializers.PrimaryKeyRelatedField(many=True, queryset=Comment.objects.all())
-    chat_sessions = serializers.PrimaryKeyRelatedField(many=True, queryset=ChatSession.objects.all())
-    chat_sessions_messages = serializers.PrimaryKeyRelatedField(many=True, queryset=ChatSessionMessage.objects.all())
-    chat_sessions_members = serializers.PrimaryKeyRelatedField(many=True, queryset=ChatSessionMember.objects.all())
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'email', 'products', 'posts', 'comments', 'chat_sessions', 'chat_sessions_messages',
-                  'chat_sessions_members', 'is_superuser']
+        fields = ['id', 'username', 'email', 'is_superuser']
 
 
 class RegisterSerializer(serializers.ModelSerializer):
