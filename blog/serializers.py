@@ -4,6 +4,8 @@ from .models import Post, Comment
 
 class BlogSerializer(serializers.ModelSerializer):
     owner = serializers.ReadOnlyField(source='owner.username')
+    details = serializers.ReadOnlyField(source='load_details', default=None, )
+    files = serializers.ReadOnlyField(source='load_files', default=None, )
 
     class Meta:
         model = Post
