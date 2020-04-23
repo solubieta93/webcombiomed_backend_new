@@ -48,7 +48,7 @@ class ProductTypeViewSet(viewsets.ModelViewSet):
     and .destroy().
     """
     serializer_class = ProductTypeSerializer
-    filter_backends = [filters.SearchFilter]
+    filter_backends = [filters.SearchFilter, filters.OrderingFilter]
     search_fields = ['title']
     ordering_fields = ['priority']
     ordering = ['priority']
