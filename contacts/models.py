@@ -7,3 +7,4 @@ class Contact(models.Model):
     image = models.TextField(default=None, null=True)
     mail = models.CharField(max_length=100, unique=True)
     role = models.CharField(max_length=100, unique=True)
+    priority = models.IntegerField(default=-1, null=False)

@@ -6,6 +6,7 @@ class ProductType(models.Model):
     title = models.CharField(null=False, max_length=100)
     description = models.TextField(default="")
     image = models.TextField(default=None, null=True)
+    priority = models.IntegerField(default=-1, null=False)
 
 
 # Create your models here.
