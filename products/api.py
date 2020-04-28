@@ -27,9 +27,6 @@ class ProductViewSet(viewsets.ModelViewSet):
         # if self.request.method in permissions.SAFE_METHODS:
         return Product.objects.all()
 
-        # # To see only products below user
-        # return Product.objects.all().filter(owner=self.request.user)
-
     def perform_create(self, serializer):
         print('estoy en el create')
         serializer.save(owner=self.request.user)
