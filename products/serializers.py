@@ -8,6 +8,7 @@ class ProductSerializer(serializers.ModelSerializer):
     type = serializers.ReadOnlyField(source='typeId.title', default=None)
     details = serializers.ReadOnlyField(source='load_details', default=None, )
     files = serializers.ReadOnlyField(source='load_files', default=None, )
+    images = serializers.ReadOnlyField(source='load_images', default=None,)
 
     class Meta:
         model = Product
