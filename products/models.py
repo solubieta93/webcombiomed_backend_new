@@ -27,7 +27,11 @@ class Product(models.Model):
     def load_images(self):
         if self.json_images:
             import json
-            loads = json.loads(self.json_images)
+            loads = [self.json_images]
+            try:
+                loads = json.loads(self.json_images)
+            except:
+                pass
             print(loads)
             return loads
         return None
