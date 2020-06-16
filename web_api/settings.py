@@ -26,8 +26,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&
 # SECURITY WARNING: don't run with debug turned on in production!
 # DEBUG = True
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+# DEBUG = False
 
-ALLOWED_HOSTS = ['api-combiomed.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['api-combiomed.herokuapp.com', 'localhost', '127.0.0.1', '192.168.2.102']
 
 # Application definition
 INSTALLED_APPS = [
@@ -48,6 +49,7 @@ INSTALLED_APPS = [
     'corsheaders',
     'django_filters',
     'files',
+    'mails',
 ]
 
 REST_FRAMEWORK = {
@@ -62,7 +64,8 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    'whitenoise.middleware.WhiteNoiseMiddleware',
+    # DESCOMENTAR PA USO EN INTERNET
+    # 'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -74,6 +77,7 @@ MIDDLEWARE = [
 
 CORS_ORIGIN_WHITELIST = (
     "http://localhost:8080",
+    "http://192.168.2.102:8080"
 )
 CORS_ORIGIN_ALLOW_ALL = True
 
@@ -158,9 +162,11 @@ STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
 
+
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# DESCOMENTAR PA USO EN INTERNET
+# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 # #  Add configuration for static files storage using whitenoise
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
@@ -168,13 +174,19 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
-EMAIL_HOST = 'smtp.sendgrid.net'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'parsifal_app'
-EMAIL_HOST_PASSWORD = 'mys3cr3tp4ssw0rd'
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_USE_TLS = True
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'solubieta93@gmail.com'
+EMAIL_HOST_PASSWORD = 'Sol@93092305534'
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+EMAIL_USE_SSL = False
 
+
+
+# DESCOMENTAR PA USO EN INTERNET
 # Heroku: Update database configuration from $DATABASE_URL.
-import dj_database_url
-db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['default'].update(db_from_env)
+# import dj_database_url
+# db_from_env = dj_database_url.config(conn_max_age=500)
+# DATABASES['default'].update(db_from_env)

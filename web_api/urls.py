@@ -30,6 +30,7 @@ urlpatterns = [
     path('', include('chat.urls')),
     path('', include('contacts.urls')),
     path('api/files/', include('files.urls')),
+    path('', include('mails.urls')),
 ]
 
 if settings.DEBUG:
