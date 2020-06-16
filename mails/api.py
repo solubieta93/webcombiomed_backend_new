@@ -12,8 +12,9 @@ class MailViewSet(GenericViewSet):
     def send_mail(self, request):
         data = dict(subject=request.data['subject'],
                     body=request.data['message'],
-                    from_email=settings.EMAIL_HOST_USER, to=[request.data['to']],
+                    from_email=settings.EMAIL_HOST_USER, to=request.data['to'],
                     headers={'Reply-to': request.data['from_email']})
+        print( data, '---data')
         result = json.loads(send_mail(data))
         if result['success']:
             return Response(result, status=202)
