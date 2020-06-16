@@ -74,6 +74,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'corsheaders.middleware.CorsMiddleware',
+    'web_api.custom_cache.DisableClientSideCachingMiddleware',
+    'django.middleware.cache.UpdateCacheMiddleware',
+    'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
 CORS_ORIGIN_WHITELIST = (
@@ -191,3 +194,12 @@ EMAIL_USE_SSL = False
 # import dj_database_url
 # db_from_env = dj_database_url.config(conn_max_age=500)
 # DATABASES['default'].update(db_from_env)
+
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
+
+CSP_DEFAULT_SRC = ("'none'",)
+CSP_STYLE_SRC = ("'self",)
+CSP_SCRIPT_SRC = ("'self",)
+CSP_FONT_SRC = ("'self",)
+CSP_IMG_SRC = ("'self",)
