@@ -14,6 +14,7 @@ import os
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+print(BASE_DIR, 'BASE_DIR')
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.2/howto/deployment/checklist/
@@ -24,11 +25,12 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&k3q+pmu)5%asj6yjpkag')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# DEBUG = True
+# TODO: COMMENT TO USE IN PRODUCTION MODE
 # DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+# TODO: UNCOMMENT TO USE IN PRODUCTION MODE
 DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
-print(DEBUG, 'debug')
 
+# TODO: ADD HOST
 ALLOWED_HOSTS = ['api-combiomed.herokuapp.com', 'localhost', '127.0.0.1', '192.168.2.102']
 
 # Application definition
@@ -38,13 +40,14 @@ INSTALLED_APPS = [
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
+    # TODO: UNCOMMENT TO USE IN DEVELOPMENT MODE
+    # 'whitenoise.runserver_nostatic',
     'django.contrib.staticfiles',
     'products',
     'rest_framework',
     'knox',
     'accounts',
     'blog',
-    # 'channels',
     'contacts',
     'chat',
     'corsheaders',
@@ -65,8 +68,8 @@ REST_FRAMEWORK = {
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
-    # DESCOMENTAR PA USO EN INTERNET
-    # 'whitenoise.middleware.WhiteNoiseMiddleware',
+    # TODO: UNCOMMENT TO USE IN PRODUCTION MODE
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -159,18 +162,20 @@ USE_TZ = True
 PROJECT_ROOT = os.path.join(os.path.abspath(__file__))
 # STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
+
 STATIC_URL = '/static/'
 
 # Extra lookup directories for collectstatic to find static files
 STATICFILES_DIRS = (
     os.path.join(PROJECT_ROOT, 'static'),
 )
-
-
 # Simplified static file serving.
 # https://warehouse.python.org/project/whitenoise/
-# DESCOMENTAR PA USO EN INTERNET
-# STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# TODO: UNCOMMENT TO USE IN PRODUCTION MODE
+STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
+# TODO: if dont work uncomment above
+# STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
+
 
 # #  Add configuration for static files storage using whitenoise
 # STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
@@ -189,7 +194,7 @@ EMAIL_USE_SSL = False
 
 
 
-# DESCOMENTAR PA USO EN INTERNET
+# UNCOMMENT TO USE HEROKU
 # Heroku: Update database configuration from $DATABASE_URL.
 # import dj_database_url
 # db_from_env = dj_database_url.config(conn_max_age=500)

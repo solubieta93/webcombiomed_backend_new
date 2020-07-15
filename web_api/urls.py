@@ -31,7 +31,9 @@ urlpatterns = [
     path('', include('contacts.urls')),
     path('api/files/', include('files.urls')),
     path('', include('mails.urls')),
-]
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
+# THIS ONLY WORK IN DEVELOPMENT USE
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    print(urlpatterns, '---urlpatterns')
