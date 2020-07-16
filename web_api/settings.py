@@ -121,18 +121,18 @@ WSGI_APPLICATION = 'web_api.wsgi.application'
 
 DATABASES = {
     # TODO: UNCOMMENT TO DEPLOY
-    # 'default': {
-    #     'ENGINE': 'django.db.backends.sqlite3',
-    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    # },
-    # TODO: COMMENT TO DEPLOY, this is only use un heroku
     'default': {
-        'ENGINE': 'django_mongodb_engine',
-        'NAME': 'combiomed',
-        'HOST': 'mongodb://localhost:27017/combiomed',
-        # 'USER': '<dbuser>',
-        # 'PASSWORD': '<dbpassword>',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
+    # TODO: COMMENT TO DEPLOY, this is only use un heroku
+    # 'default': {
+    #     'ENGINE': 'django_mongodb_engine',
+    #     'NAME': 'combiomed',
+    #     'HOST': 'mongodb://localhost:27017/combiomed',
+    #     # 'USER': '<dbuser>',
+    #     # 'PASSWORD': '<dbpassword>',
+    # },
 }
 
 # Password validation
