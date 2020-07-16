@@ -116,13 +116,13 @@ DATABASES = {
         'ENGINE': 'django.db.backends.sqlite3',
         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     },
-    # 'default': {
-    #     'ENGINE': 'django_mongodb_engine',
-    #     'NAME': 'combiomed',
-    #     'HOST': 'mongodb://localhost:27017/combiomed',
-    #     # 'USER': '<dbuser>',
-    #     # 'PASSWORD': '<dbpassword>',
-    # },
+    'heroku_db': {
+        'ENGINE': 'django_mongodb_engine',
+        'NAME': 'combiomed',
+        'HOST': 'mongodb://localhost:27017/combiomed',
+        # 'USER': '<dbuser>',
+        # 'PASSWORD': '<dbpassword>',
+    },
 }
 
 # Password validation
@@ -192,13 +192,11 @@ EMAIL_HOST_PASSWORD = 'Sol@93092305534'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_USE_SSL = False
 
-
-
 # UNCOMMENT TO USE HEROKU
 # Heroku: Update database configuration from $DATABASE_URL.
-# import dj_database_url
-# db_from_env = dj_database_url.config(conn_max_age=500)
-# DATABASES['default'].update(db_from_env)
+import dj_database_url
+db_from_env = dj_database_url.config(conn_max_age=500)
+DATABASES['heroku_db'].update(db_from_env)
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
