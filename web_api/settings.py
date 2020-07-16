@@ -26,9 +26,9 @@ SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'cg#p$g+j9tax!#a3cup@1$8obt2_+&
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # TODO: COMMENT TO USE IN PRODUCTION MODE
-# DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
 # TODO: UNCOMMENT TO USE IN PRODUCTION MODE
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
+# DEBUG = bool(os.environ.get('DJANGO_DEBUG', False))
 
 # TODO: ADD HOST
 ALLOWED_HOSTS = ['api-combiomed.herokuapp.com', 'localhost', '127.0.0.1', '192.168.2.102']
