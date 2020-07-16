@@ -112,11 +112,11 @@ WSGI_APPLICATION = 'web_api.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
+    # 'default': {
+    #     'ENGINE': 'django.db.backends.sqlite3',
+    #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    # },
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    },
-    'heroku_db': {
         'ENGINE': 'django_mongodb_engine',
         'NAME': 'combiomed',
         'HOST': 'mongodb://localhost:27017/combiomed',
@@ -196,7 +196,7 @@ EMAIL_USE_SSL = False
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES['heroku_db'].update(db_from_env)
+DATABASES['default'].update(db_from_env)
 
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
