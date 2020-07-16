@@ -82,11 +82,19 @@ MIDDLEWARE = [
     'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
+# TODO: PUSH THE HTTPS INSIDE TEH WHITElIST AND SET CORS_ORIGIN_ALLOW_ALL = FALSE
 CORS_ORIGIN_WHITELIST = (
     "http://localhost:8080",
     "http://192.168.2.102:8080"
 )
 CORS_ORIGIN_ALLOW_ALL = True
+
+# TODO
+from corsheaders.defaults import default_methods
+CORS_ALLOW_METHODS = list(default_methods)
+
+from corsheaders.defaults import default_headers
+CORS_ALLOW_HEADERS = list(default_headers)
 
 ROOT_URLCONF = 'web_api.urls'
 
@@ -112,10 +120,12 @@ WSGI_APPLICATION = 'web_api.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 DATABASES = {
+    # TODO: UNCOMMENT TO DEPLOY
     # 'default': {
     #     'ENGINE': 'django.db.backends.sqlite3',
     #     'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
     # },
+    # TODO: COMMENT TO DEPLOY, this is only use un heroku
     'default': {
         'ENGINE': 'django_mongodb_engine',
         'NAME': 'combiomed',
@@ -192,7 +202,7 @@ EMAIL_HOST_PASSWORD = 'Sol@93092305534'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 EMAIL_USE_SSL = False
 
-# UNCOMMENT TO USE HEROKU
+# TODO: COMMENT TO DEPLOY, this is only use un heroku
 # Heroku: Update database configuration from $DATABASE_URL.
 import dj_database_url
 db_from_env = dj_database_url.config(conn_max_age=500)
