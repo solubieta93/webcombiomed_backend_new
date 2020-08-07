@@ -82,6 +82,16 @@ MIDDLEWARE = [
     'django.middleware.cache.FetchFromCacheMiddleware',
 ]
 
+# TODO: PUSH THE HTTPS address in location
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.memcached.MemcachedCache',
+        'LOCATION': ['localhost:8080', '192.168.2.102:8080']
+    }
+    # 'default': {
+    #     'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
+    # }
+}
 # TODO: PUSH THE HTTPS INSIDE TEH WHITElIST AND SET CORS_ORIGIN_ALLOW_ALL = FALSE
 CORS_ORIGIN_WHITELIST = (
     "http://localhost:8080",
