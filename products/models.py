@@ -8,6 +8,28 @@ class ProductType(models.Model):
     image = models.TextField(default=None, null=True)
     priority = models.IntegerField(default=-1, null=False)
 
+    def load_title(self):
+        if self.title:
+            loads = self.title
+            import json
+            try:
+                loads = json.loads(self.title)
+            except:
+                pass
+            return loads
+        return None
+
+    def load_description(self):
+        if self.title:
+            loads = self.description
+            import json
+            try:
+                loads = json.loads(self.description)
+            except:
+                pass
+            return loads
+        return None
+
 
 # Create your models here.
 class Product(models.Model):

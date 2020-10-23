@@ -16,6 +16,9 @@ class ProductSerializer(serializers.ModelSerializer):
 
 
 class ProductTypeSerializer(serializers.ModelSerializer):
+    title_json = serializers.ReadOnlyField(source='load_title', default=[])
+    description_json = serializers.ReadOnlyField(source='load_description', default=[])
+
     class Meta:
         model = ProductType
         fields = '__all__'
