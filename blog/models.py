@@ -21,9 +21,9 @@ class Post(models.Model):
                               related_name="posts",
                               on_delete=models.CASCADE,
                               null=True)
-    title = models.CharField(max_length=120, unique=False)
+    title = models.CharField(max_length=1200, unique=False)
     timestamp = models.DateTimeField(auto_now=False, auto_now_add=True)
-    abstract = models.TextField(max_length=1000, null=False)
+    abstract = models.TextField(max_length=10000, null=False)
 
     image = models.TextField(default=None, null=True)
 
@@ -39,19 +39,50 @@ class Post(models.Model):
     countLike = models.IntegerField(default=0)
     object = PostManager
 
-    json_details = models.TextField(default=None, null=True)
+    json_details_es = models.TextField(default=None, null=True)
+    json_details_en = models.TextField(default=None, null=True)
     json_files = models.TextField(default=None, null=True)
 
-    def load_details(self):
-        if self.json_details:
+    def load_details_es(self):
+        if self.json_details_es:
             import json
-            return json.loads(self.json_details)
+            return json.loads(self.json_details_es)
+        return None
+
+    def load_details_en(self):
+        if self.json_details_en:
+            import json
+            return json.loads(self.json_details_en)
         return None
 
     def load_files(self):
         if self.json_files:
             import json
             return json.loads(self.json_files)
+        return None
+
+    def load_title(self):
+        if self.title:
+            import json
+            loads = self.title
+            try:
+                loads = json.loads(self.title)
+            except:
+                pass
+            print(loads)
+            return loads
+        return None
+
+    def load_abstract(self):
+        if self.abstract:
+            import json
+            loads = self.abstract
+            try:
+                loads = json.loads(self.abstract)
+            except:
+                pass
+            print(loads)
+            return loads
         return None
 
 

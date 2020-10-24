@@ -37,13 +37,14 @@ class Product(models.Model):
                               related_name="products",
                               on_delete=models.CASCADE,
                               null=True)
-    name = models.CharField(max_length=100, unique=True)
-    description = models.CharField(max_length=100, blank=True)
+    name = models.CharField(max_length=1000, unique=True)
+    description = models.CharField(max_length=1000, blank=True)
     typeId = models.ForeignKey(ProductType, null=True, on_delete=models.SET_NULL)
     image = models.TextField(default=None, null=True)
     defaultImage = models.IntegerField(default=-1, null=True)
     json_images = models.TextField(default=None, null=True)
-    json_details = models.TextField(default=None, null=True)
+    json_details_es = models.TextField(default=None, null=True)
+    json_details_en = models.TextField(default=None, null=True)
     json_files = models.TextField(default=None, null=True)
 
     def load_images(self):
@@ -58,14 +59,44 @@ class Product(models.Model):
             return loads
         return None
 
-    def load_details(self):
-        if self.json_details:
+    def load_details_es(self):
+        if self.json_details_es:
             import json
-            return json.loads(self.json_details)
+            return json.loads(self.json_details_es)
+        return None
+
+    def load_details_en(self):
+        if self.json_details_en:
+            import json
+            return json.loads(self.json_details_en)
         return None
 
     def load_files(self):
         if self.json_files:
             import json
             return json.loads(self.json_files)
+        return None
+
+    def load_name(self):
+        if self.name:
+            import json
+            loads = self.name
+            try:
+                loads = json.loads(self.name)
+            except:
+                pass
+            print(loads)
+            return loads
+        return None
+
+    def load_description(self):
+        if self.description:
+            import json
+            loads = self.description
+            try:
+                loads = json.loads(self.description)
+            except:
+                pass
+            print(loads)
+            return loads
         return None
